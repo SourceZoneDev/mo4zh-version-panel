@@ -89,7 +89,7 @@
       }
 
       if (!res.ok) {
-        loadDescription = `版本获取失败: ${res.statusText || data.message}`;
+        loadDescription = `版本获取失败: ${res.statusText || data.title}`;
         return;
       }
 
@@ -194,22 +194,23 @@
         body: JSON.stringify(payload),
       });
 
-      let data = null;
-      try {
-        data = await res.json();
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        showStatus(`版本更新失败：${res.statusText || message}`);
-        return;
-      }
-
       if (res.ok) {
         initialRelease = { ...release };
         initialTest = { ...test };
 
         showStatus("版本已更新");
       } else {
-        showStatus(`版本更新失败：${res.statusText || data.message}`);
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : String(error);
+          showStatus(`版本更新失败：${res.statusText || message}`);
+          return;
+        }
+
+        showStatus(`版本更新失败：${res.statusText || data.title}`);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
