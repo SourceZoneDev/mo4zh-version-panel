@@ -51,6 +51,17 @@
     testGameVersion: "",
   });
 
+  let isModified = $derived(
+    release.version !== initialRelease.version ||
+    release.gameVersion !== initialRelease.gameVersion ||
+    release.message !== initialRelease.message ||
+    release.url !== initialRelease.url ||
+    test.version !== initialTest.version ||
+    test.gameVersion !== initialTest.gameVersion ||
+    test.message !== initialTest.message ||
+    test.url !== initialTest.url
+  );
+
   onMount(async () => {
     const {
       provideFluentDesignSystem,
@@ -131,6 +142,10 @@
 
   function save() {
     if (saving) {
+      return;
+    }
+
+    if (!isModified) {
       return;
     }
 
@@ -533,7 +548,7 @@
           onclick={save}
           role="button"
           tabindex="0"
-          disabled={saving}
+          disabled={saving || !isModified}
           onkeydown={(e: KeyboardEvent) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
