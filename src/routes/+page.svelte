@@ -95,12 +95,12 @@
         data = await res.json();
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        loadDescription = `版本请求失败: ${res.statusText || message}`;
+        loadDescription = `版本请求失败，请刷新页面（${res.statusText || message}）`;
         return;
       }
 
       if (!res.ok) {
-        loadDescription = `版本获取失败: ${res.statusText || data.title}`;
+        loadDescription = `版本获取失败，请刷新页面（${res.statusText || data.title}）`;
         return;
       }
 
@@ -111,7 +111,7 @@
       initialTest = { ...data.test };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      loadDescription = `版本请求失败: ${message}`;
+      loadDescription = `版本请求失败，请刷新页面（${message}）`;
     } finally {
       loaded = true;
     }
@@ -185,14 +185,9 @@
   }
 
   async function confirmSave() {
-    if (!accessToken) {
-      dialogError = "密钥不能为空";
-      return;
-    }
-
-    closeDialog();
     saving = true;
     loadDescription = "";
+    dialogError = "";
 
     const payload = {
       release: release,
@@ -210,26 +205,31 @@
       });
 
       if (res.ok) {
+        closeDialog();
         initialRelease = { ...release };
         initialTest = { ...test };
 
-        showStatus("版本已更新");
+        showStatus("版本更新完成");
+      } else if (res.status === 401) {
+        dialogError = "密钥错误，请重试";
       } else {
+        closeDialog();
         let data = null;
         try {
           data = await res.json();
         } catch (error) {
           const message =
             error instanceof Error ? error.message : String(error);
-          showStatus(`版本更新失败：${res.statusText || message}`);
+          showStatus(`版本更新失败，请重试（${res.statusText || message}）`);
           return;
         }
 
-        showStatus(`版本更新失败：${res.statusText || data.title}`);
+        showStatus(`版本更新失败，请重试（${res.statusText || data.title}）`);
       }
     } catch (error) {
+      closeDialog();
       const message = error instanceof Error ? error.message : String(error);
-      showStatus(`版本更新失败：${message}`);
+      showStatus(`版本更新失败，请重试（${message}）`);
     } finally {
       saving = false;
     }
@@ -540,9 +540,7 @@
       </fluent-tabs>
 
       <div class="actions">
-        {#if saving}
-          <fluent-progress-ring class="save-progress"></fluent-progress-ring>
-        {:else if saveDescription}
+        {#if saveDescription}
           <span class="status-message {statusFading ? 'fade-out' : ''} ">
             {saveDescription}
           </span>
@@ -552,7 +550,7 @@
           onclick={save}
           role="button"
           tabindex="0"
-          disabled={saving || !isModified}
+          disabled={!isModified || saving}
           onkeydown={(e: KeyboardEvent) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -590,10 +588,14 @@
         style="width: 100%; margin-bottom: 1rem;"
       ></fluent-text-field>
       <div class="dialog-actions">
+        {#if saving}
+          <fluent-progress-ring class="save-progress"></fluent-progress-ring>
+        {/if}
         <fluent-button
           onclick={closeDialog}
           role="button"
           tabindex="0"
+          disabled={saving}
           onkeydown={(e: KeyboardEvent) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -606,6 +608,7 @@
           onclick={confirmSave}
           role="button"
           tabindex="0"
+          disabled={!accessToken || saving}
           onkeydown={(e: KeyboardEvent) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
