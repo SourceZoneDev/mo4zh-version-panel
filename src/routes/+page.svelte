@@ -50,6 +50,7 @@
     testVersion: "",
     testGameVersion: "",
   });
+  let abortController: AbortController | null = null;
 
   let isModified = $derived(
     release.version !== initialRelease.version ||
@@ -132,6 +133,11 @@
   }
 
   function closeDialog() {
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+
     isDialogClosing = true;
     setTimeout(() => {
       isDialogOpen = false;
@@ -189,6 +195,8 @@
     loadDescription = "";
     dialogError = "";
 
+    abortController = new AbortController();
+
     const payload = {
       release: release,
       test: test,
@@ -202,6 +210,7 @@
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(payload),
+        signal: abortController.signal,
       });
 
       if (res.ok) {
@@ -227,11 +236,16 @@
         showStatus(`版本更新失败，请重试（${res.statusText || data.title}）`);
       }
     } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+
       closeDialog();
       const message = error instanceof Error ? error.message : String(error);
       showStatus(`版本更新失败，请重试（${message}）`);
     } finally {
       saving = false;
+      abortController = null;
     }
   }
 </script>
@@ -615,7 +629,6 @@
           onclick={closeDialog}
           role="button"
           tabindex="0"
-          disabled={saving}
           onkeydown={(e: KeyboardEvent) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
