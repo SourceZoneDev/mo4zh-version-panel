@@ -540,26 +540,46 @@
       </fluent-tabs>
 
       <div class="actions">
-        {#if saveDescription}
-          <span class="status-message {statusFading ? 'fade-out' : ''} ">
-            {saveDescription}
-          </span>
-        {/if}
-        <fluent-button
-          appearance="accent"
-          onclick={save}
-          role="button"
-          tabindex="0"
-          disabled={!isModified || saving}
-          onkeydown={(e: KeyboardEvent) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              save();
-            }
-          }}
-        >
-          保存
-        </fluent-button>
+        <div class="copyright">
+          本项目采用
+          <a
+            href="https://www.gnu.org/licenses/agpl.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AGPLv3
+          </a>
+          授权
+          <a
+            href="https://codeberg.org/SourceZoneDev/mo4-version-panel"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            源代码
+          </a>
+        </div>
+        <div class="action-buttons">
+          {#if saveDescription}
+            <span class="status-message {statusFading ? 'fade-out' : ''} ">
+              {saveDescription}
+            </span>
+          {/if}
+          <fluent-button
+            appearance="accent"
+            onclick={save}
+            role="button"
+            tabindex="0"
+            disabled={!isModified || saving}
+            onkeydown={(e: KeyboardEvent) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                save();
+              }
+            }}
+          >
+            保存
+          </fluent-button>
+        </div>
       </div>
     </fluent-card>
   {:else}
@@ -686,9 +706,30 @@
 
   .actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     gap: 1rem;
+  }
+
+  .action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+    color: #999;
+  }
+
+  .copyright a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed #999;
+  }
+
+  .copyright a:hover {
+    border-bottom-style: solid;
   }
 
   .save-progress {
