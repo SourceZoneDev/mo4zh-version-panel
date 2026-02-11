@@ -53,13 +53,13 @@
 
   let isModified = $derived(
     release.version !== initialRelease.version ||
-    release.gameVersion !== initialRelease.gameVersion ||
-    release.message !== initialRelease.message ||
-    release.url !== initialRelease.url ||
-    test.version !== initialTest.version ||
-    test.gameVersion !== initialTest.gameVersion ||
-    test.message !== initialTest.message ||
-    test.url !== initialTest.url
+      release.gameVersion !== initialRelease.gameVersion ||
+      release.message !== initialRelease.message ||
+      release.url !== initialRelease.url ||
+      test.version !== initialTest.version ||
+      test.gameVersion !== initialTest.gameVersion ||
+      test.message !== initialTest.message ||
+      test.url !== initialTest.url,
   );
 
   onMount(async () => {
@@ -250,85 +250,87 @@
 
         <fluent-tab-panel id="release-panel">
           <div class="form-grid">
-            <fluent-text-field
-              placeholder="必填，例如：1.0"
-              value={release.version}
-              oninput={(e: any) => {
-                release.version = (e.target as HTMLInputElement).value;
-                if (release.version) fieldErrors.releaseVersion = "";
-              }}
-            >
-              版本号
-              {#if release.version !== initialRelease.version}
-                <span
-                  class="reset-icon"
-                  title="还原"
-                  role="button"
-                  tabindex="0"
-                  onclick={(e) => {
-                    e.stopPropagation();
-                    release.version = initialRelease.version;
-                    if (release.version) fieldErrors.releaseVersion = "";
-                  }}
-                  onkeydown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
+            <div class="row-group">
+              <fluent-text-field
+                placeholder="必填，例如：1.0"
+                value={release.version}
+                oninput={(e: any) => {
+                  release.version = (e.target as HTMLInputElement).value;
+                  if (release.version) fieldErrors.releaseVersion = "";
+                }}
+              >
+                版本号
+                {#if release.version !== initialRelease.version}
+                  <span
+                    class="reset-icon"
+                    title="还原"
+                    role="button"
+                    tabindex="0"
+                    onclick={(e) => {
                       e.stopPropagation();
                       release.version = initialRelease.version;
                       if (release.version) fieldErrors.releaseVersion = "";
-                    }
-                  }}
-                >
-                  <ArrowClockwiseFilled />
-                </span>
-              {/if}
-              {#if fieldErrors.releaseVersion}
-                <span class="error-inline">
-                  {fieldErrors.releaseVersion}
-                </span>
-              {/if}
-            </fluent-text-field>
+                    }}
+                    onkeydown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        release.version = initialRelease.version;
+                        if (release.version) fieldErrors.releaseVersion = "";
+                      }
+                    }}
+                  >
+                    <ArrowClockwiseFilled />
+                  </span>
+                {/if}
+                {#if fieldErrors.releaseVersion}
+                  <span class="error-inline">
+                    {fieldErrors.releaseVersion}
+                  </span>
+                {/if}
+              </fluent-text-field>
 
-            <fluent-text-field
-              placeholder="必填，例如：1.0.0"
-              value={release.gameVersion}
-              oninput={(e: any) => {
-                release.gameVersion = (e.target as HTMLInputElement).value;
-                if (release.gameVersion) fieldErrors.releaseGameVersion = "";
-              }}
-            >
-              对应游戏版本号
-              {#if release.gameVersion !== initialRelease.gameVersion}
-                <span
-                  class="reset-icon"
-                  title="还原"
-                  role="button"
-                  tabindex="0"
-                  onclick={(e) => {
-                    e.stopPropagation();
-                    release.gameVersion = initialRelease.gameVersion;
-                    if (release.gameVersion)
-                      fieldErrors.releaseGameVersion = "";
-                  }}
-                  onkeydown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
+              <fluent-text-field
+                placeholder="必填，例如：1.0.0"
+                value={release.gameVersion}
+                oninput={(e: any) => {
+                  release.gameVersion = (e.target as HTMLInputElement).value;
+                  if (release.gameVersion) fieldErrors.releaseGameVersion = "";
+                }}
+              >
+                对应游戏版本号
+                {#if release.gameVersion !== initialRelease.gameVersion}
+                  <span
+                    class="reset-icon"
+                    title="还原"
+                    role="button"
+                    tabindex="0"
+                    onclick={(e) => {
                       e.stopPropagation();
                       release.gameVersion = initialRelease.gameVersion;
                       if (release.gameVersion)
                         fieldErrors.releaseGameVersion = "";
-                    }
-                  }}
-                >
-                  <ArrowClockwiseFilled />
-                </span>
-              {/if}
-              {#if fieldErrors.releaseGameVersion}
-                <span class="error-inline">
-                  {fieldErrors.releaseGameVersion}
-                </span>
-              {/if}
-            </fluent-text-field>
+                    }}
+                    onkeydown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        release.gameVersion = initialRelease.gameVersion;
+                        if (release.gameVersion)
+                          fieldErrors.releaseGameVersion = "";
+                      }
+                    }}
+                  >
+                    <ArrowClockwiseFilled />
+                  </span>
+                {/if}
+                {#if fieldErrors.releaseGameVersion}
+                  <span class="error-inline">
+                    {fieldErrors.releaseGameVersion}
+                  </span>
+                {/if}
+              </fluent-text-field>
+            </div>
 
             <fluent-text-area
               resize="vertical"
@@ -394,83 +396,85 @@
 
         <fluent-tab-panel id="test-panel">
           <div class="form-grid">
-            <fluent-text-field
-              placeholder="必填，例如：1.1"
-              value={test.version}
-              oninput={(e: any) => {
-                test.version = (e.target as HTMLInputElement).value;
-                if (test.version) fieldErrors.testVersion = "";
-              }}
-            >
-              版本号
-              {#if test.version !== initialTest.version}
-                <span
-                  class="reset-icon"
-                  title="还原"
-                  role="button"
-                  tabindex="0"
-                  onclick={(e) => {
-                    e.stopPropagation();
-                    test.version = initialTest.version;
-                    if (test.version) fieldErrors.testVersion = "";
-                  }}
-                  onkeydown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
+            <div class="row-group">
+              <fluent-text-field
+                placeholder="必填，例如：1.1"
+                value={test.version}
+                oninput={(e: any) => {
+                  test.version = (e.target as HTMLInputElement).value;
+                  if (test.version) fieldErrors.testVersion = "";
+                }}
+              >
+                版本号
+                {#if test.version !== initialTest.version}
+                  <span
+                    class="reset-icon"
+                    title="还原"
+                    role="button"
+                    tabindex="0"
+                    onclick={(e) => {
                       e.stopPropagation();
                       test.version = initialTest.version;
                       if (test.version) fieldErrors.testVersion = "";
-                    }
-                  }}
-                >
-                  <ArrowClockwiseFilled />
-                </span>
-              {/if}
-              {#if fieldErrors.testVersion}
-                <span class="error-inline">
-                  {fieldErrors.testVersion}
-                </span>
-              {/if}
-            </fluent-text-field>
+                    }}
+                    onkeydown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        test.version = initialTest.version;
+                        if (test.version) fieldErrors.testVersion = "";
+                      }
+                    }}
+                  >
+                    <ArrowClockwiseFilled />
+                  </span>
+                {/if}
+                {#if fieldErrors.testVersion}
+                  <span class="error-inline">
+                    {fieldErrors.testVersion}
+                  </span>
+                {/if}
+              </fluent-text-field>
 
-            <fluent-text-field
-              placeholder="必填，例如：1.0.1"
-              value={test.gameVersion}
-              oninput={(e: any) => {
-                test.gameVersion = (e.target as HTMLInputElement).value;
-                if (test.gameVersion) fieldErrors.testGameVersion = "";
-              }}
-            >
-              对应游戏版本号
-              {#if test.gameVersion !== initialTest.gameVersion}
-                <span
-                  class="reset-icon"
-                  title="还原"
-                  role="button"
-                  tabindex="0"
-                  onclick={(e) => {
-                    e.stopPropagation();
-                    test.gameVersion = initialTest.gameVersion;
-                    if (test.gameVersion) fieldErrors.testGameVersion = "";
-                  }}
-                  onkeydown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
+              <fluent-text-field
+                placeholder="必填，例如：1.0.1"
+                value={test.gameVersion}
+                oninput={(e: any) => {
+                  test.gameVersion = (e.target as HTMLInputElement).value;
+                  if (test.gameVersion) fieldErrors.testGameVersion = "";
+                }}
+              >
+                对应游戏版本号
+                {#if test.gameVersion !== initialTest.gameVersion}
+                  <span
+                    class="reset-icon"
+                    title="还原"
+                    role="button"
+                    tabindex="0"
+                    onclick={(e) => {
                       e.stopPropagation();
                       test.gameVersion = initialTest.gameVersion;
                       if (test.gameVersion) fieldErrors.testGameVersion = "";
-                    }
-                  }}
-                >
-                  <ArrowClockwiseFilled />
-                </span>
-              {/if}
-              {#if fieldErrors.testGameVersion}
-                <span class="error-inline">
-                  {fieldErrors.testGameVersion}
-                </span>
-              {/if}
-            </fluent-text-field>
+                    }}
+                    onkeydown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        test.gameVersion = initialTest.gameVersion;
+                        if (test.gameVersion) fieldErrors.testGameVersion = "";
+                      }
+                    }}
+                  >
+                    <ArrowClockwiseFilled />
+                  </span>
+                {/if}
+                {#if fieldErrors.testGameVersion}
+                  <span class="error-inline">
+                    {fieldErrors.testGameVersion}
+                  </span>
+                {/if}
+              </fluent-text-field>
+            </div>
 
             <fluent-text-area
               resize="vertical"
@@ -661,6 +665,15 @@
     flex-direction: column;
     gap: 1rem;
     padding-top: 1rem;
+  }
+
+  .row-group {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .row-group > fluent-text-field {
+    flex: 1;
   }
 
   fluent-text-field,
