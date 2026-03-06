@@ -251,13 +251,13 @@
 </script>
 
 <main>
-  {#if loaded}
-    <fluent-card class="container">
-      {#if loadDescription}
-        <div class="load-error">
-          {loadDescription}
-        </div>
-      {/if}
+  <fluent-card class="container">
+    {#if loadDescription}
+      <div class="load-error">
+        {loadDescription}
+      </div>
+    {/if}
+    <div class="tabs-wrapper">
       <fluent-tabs>
         <fluent-tab id="release-tab">正式版</fluent-tab>
         <fluent-tab id="test-tab">测试版</fluent-tab>
@@ -552,53 +552,56 @@
           </div>
         </fluent-tab-panel>
       </fluent-tabs>
+      {#if !loaded}
+        <div class="loading-overlay">
+          <fluent-progress-ring></fluent-progress-ring>
+        </div>
+      {/if}
+    </div>
 
-      <div class="actions">
-        <div class="copyright">
-          本项目采用
-          <a
-            href="https://www.gnu.org/licenses/agpl.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            AGPLv3
-          </a>
-          授权
-          <a
-            href="https://codeberg.org/SourceZoneDev/mo4-version-panel"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            源代码
-          </a>
-        </div>
-        <div class="action-buttons">
-          {#if saveDescription}
-            <span class="status-message {statusFading ? 'fade-out' : ''} ">
-              {saveDescription}
-            </span>
-          {/if}
-          <fluent-button
-            appearance="accent"
-            onclick={save}
-            role="button"
-            tabindex="0"
-            disabled={!isModified || saving}
-            onkeydown={(e: KeyboardEvent) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                save();
-              }
-            }}
-          >
-            保存
-          </fluent-button>
-        </div>
+    <div class="actions">
+      <div class="copyright">
+        本项目采用
+        <a
+          href="https://www.gnu.org/licenses/agpl.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          AGPLv3
+        </a>
+        授权
+        <a
+          href="https://codeberg.org/SourceZoneDev/mo4-version-panel"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          源代码
+        </a>
       </div>
-    </fluent-card>
-  {:else}
-    <fluent-progress-ring></fluent-progress-ring>
-  {/if}
+      <div class="action-buttons">
+        {#if saveDescription}
+          <span class="status-message {statusFading ? 'fade-out' : ''} ">
+            {saveDescription}
+          </span>
+        {/if}
+        <fluent-button
+          appearance="accent"
+          onclick={save}
+          role="button"
+          tabindex="0"
+          disabled={!isModified || saving}
+          onkeydown={(e: KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              save();
+            }
+          }}
+        >
+          保存
+        </fluent-button>
+      </div>
+    </div>
+  </fluent-card>
 
   <fluent-dialog
     hidden={!isDialogOpen}
@@ -677,8 +680,23 @@
     max-width: 600px;
   }
 
-  fluent-tabs {
+  .tabs-wrapper {
+    position: relative;
     margin-bottom: 1.5rem;
+  }
+
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3.33px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
   }
 
   fluent-tab-panel {
