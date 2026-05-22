@@ -660,7 +660,7 @@
 <style>
   :global(body) {
     font-family: sans-serif;
-    background-color: #f3f3f3;
+    background-color: oklch(0.9642 0 0);
     margin: 0;
     padding: 0;
   }
@@ -691,7 +691,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: oklch(1 0 0 / 50%);
     backdrop-filter: blur(3.33px);
     display: flex;
     justify-content: center;
@@ -750,13 +750,13 @@
 
   .copyright {
     font-size: 0.75rem;
-    color: #999;
+    color: oklch(0.683 0 0);
   }
 
   .copyright a {
     color: inherit;
     text-decoration: none;
-    border-bottom: 1px dashed #999;
+    border-bottom: 1px dashed oklch(0.683 0 0);
   }
 
   .copyright a:hover {
@@ -769,17 +769,17 @@
   }
 
   .load-error {
-    color: #d13438;
-    background-color: #fde7e9;
+    color: oklch(0.5697 0.1934 24.68);
+    background-color: oklch(0.9462 0.0242 11.29);
     padding: 0.75rem;
     border-radius: 4px;
     margin-bottom: 1rem;
-    border: 1px solid #f9ced2;
+    border: 1px solid oklch(0.8894 0.0488 11.8);
   }
 
   .status-message {
     font-size: 0.875rem;
-    color: #666;
+    color: oklch(0.5103 0 0);
     animation: fade-in 0.33s ease-out;
     opacity: 1;
     transition: opacity 0.5s ease-out;
@@ -804,18 +804,18 @@
     width: 300px;
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: oklch(1 0 0);
     border-radius: 4px;
   }
 
   .dialog-error-text {
-    color: #d13438;
+    color: oklch(0.5697 0.1934 24.68);
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
   }
 
   .error-inline {
-    color: #d13438;
+    color: oklch(0.5697 0.1934 24.68);
     font-size: 0.875rem;
     margin-left: 0.5rem;
   }
