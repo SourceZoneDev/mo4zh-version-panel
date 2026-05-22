@@ -1,7 +1,7 @@
 {
 	"name": "mo4ver-panel",
 	"private": true,
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -13,13 +13,13 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.50.1",
-		"@sveltejs/vite-plugin-svelte": "^6.2.4",
-		"fluentui-icons-svelte": "^1.0.3",
-		"svelte": "^5.48.2",
-		"svelte-check": "^4.3.5",
-		"typescript": "^5.9.3",
-		"vite": "^7.3.1"
+		"@sveltejs/kit": "^2.60.1",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"fluentui-icons-svelte": "^1.1.1",
+		"svelte": "^5.55.9",
+		"svelte-check": "^4.4.8",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.14"
 	},
 	"dependencies": {
 		"@fluentui/web-components": "^2.6.1"
